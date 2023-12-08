@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const {getUser} = require('../controllers/userController');
+const userController = require('../controllers/userController');
 
 // GET /user
-router.get('/', getUser);
-
-router.post('/', (req, res) => {
-	res.send('Got a POST request');
-});
+router.post('/add', userController.postUser);
+router.get('/', userController.getusers);
+router.get('/:id', userController.findbyID);
+router.put('/:id', userController.updatebyID);
+router.delete('/:id', userController.deletebyID);
 
 module.exports = router;
