@@ -1,4 +1,5 @@
 const db = require('../config/db.js');
+const joi = require('joi');
 
 class Article{
 
@@ -28,6 +29,14 @@ class Article{
 	static async deleteOne(id){
 		let sql = `DELETE FROM articles WHERE id = ?`;
 		return await db.execute(sql, [id]);
+	}
+	static validateArticle(article){
+		const schema = joi.object({
+			userID: joi.number().integer().required(),
+			articlename: joi.string().min(3).max(30).required(),
+			content: joi.string().min(3).max(100).required()
+		});
+		return schema.validate(article);
 	}
 }
 

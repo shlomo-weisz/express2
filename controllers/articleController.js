@@ -11,6 +11,10 @@ module.exports = {
 	},
 	postArticle: async (req, res) => {
 		try {
+			let validarticle = await Article.validateArticle(req.body);
+			if (validarticle.error) {
+				return res.status(400).json(validarticle.error.details[0].message);
+			}
 			let { userID, articlename, content } = req.body;
 			let newArticle = new Article(userID, articlename, content);
 			let result = await newArticle.createArticle();
